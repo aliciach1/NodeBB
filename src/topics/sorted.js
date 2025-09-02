@@ -242,7 +242,7 @@ module.exports = function (Topics) {
 		return b.viewcount - a.viewcount;
 	}
 
-	async function getFiltered(filter, tids, uid){
+	async function getFiltered(filter, tids, uid) {
 		if (filter === 'new') {
 			tids = await Topics.filterNewTids(tids, uid);
 		} else if (filter === 'unreplied') {
