@@ -242,9 +242,7 @@ module.exports = function (Topics) {
 		return b.viewcount - a.viewcount;
 	}
 
-	async function filterTids(tids, params) {
-		const { filter, uid } = params;
-
+	async function getFiltered(filter, tids, uid){
 		if (filter === 'new') {
 			tids = await Topics.filterNewTids(tids, uid);
 		} else if (filter === 'unreplied') {
@@ -252,6 +250,11 @@ module.exports = function (Topics) {
 		} else {
 			tids = await Topics.filterNotIgnoredTids(tids, uid);
 		}
+	}
+
+	async function filterTids(tids, params) {
+		const { filter, uid } = params;
+		tids = getFiltered(filter, tids, uid);
 
 		tids = await privileges.topics.filterTids('topics:read', tids, uid);
 		let topicData = await Topics.getTopicsFields(tids, ['uid', 'tid', 'cid', 'tags']);
