@@ -250,11 +250,12 @@ module.exports = function (Topics) {
 		} else {
 			tids = await Topics.filterNotIgnoredTids(tids, uid);
 		}
+		return tids;
 	}
 
 	async function filterTids(tids, params) {
 		const { filter, uid } = params;
-		tids = getFiltered(filter, tids, uid);
+		tids = await getFiltered(filter, tids, uid);
 
 		tids = await privileges.topics.filterTids('topics:read', tids, uid);
 		let topicData = await Topics.getTopicsFields(tids, ['uid', 'tid', 'cid', 'tags']);
